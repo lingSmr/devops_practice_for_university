@@ -1,0 +1,30 @@
+name: CI Health Check
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build containers
+      run: docker compose build
+
+    - name: Start services
+      run: docker compose up -d
+
+    - name: Run health-check
+      run: |
+        sleep 5
+        curl -I http://localhost:8080
+
+    - name: Stop containers
+      run: docker compose down

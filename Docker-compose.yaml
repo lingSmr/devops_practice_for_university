@@ -5,7 +5,3 @@ services:
     image: my-status-page
     ports:
       - "8080:80"
-
-  logger:
-    image: busybox
-    command: sh -c "while true; do echo 'Logger: service is running'; sleep 5; done"
